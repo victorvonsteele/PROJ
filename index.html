@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Besh Kape </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            nikeGrey: '#f5f5f5',
+            nikeDark: '#111111',
+            nikeAccent: '#e5e5e5'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbars and Transitions */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #111;
+      border-radius: 3px;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    /* Smooth Transitions */
+    .drawer-transition {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    /* Animation Keyframes for Delivery Rider */
+    @keyframes moveRider {
+      0% { top: 75%; left: 15%; transform: scale(0.8); }
+      25% { top: 60%; left: 35%; }
+      50% { top: 45%; left: 50%; transform: scale(1.1); }
+      75% { top: 30%; left: 68%; }
+      100% { top: 20%; left: 82%; transform: scale(1); }
+    }
+    
+    .animate-rider {
+      animation: moveRider 14s infinite ease-in-out;
+    }
+    
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.3); }
+    }
+
+    .pulse-effect {
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-white text-nikeDark font-sans antialiased selection:bg-black selection:text-white">
+
+  <!-- Top Announcement Promo Bar -->
+  <div class="bg-nikeGrey text-xs py-2 px-4 text-center border-b border-gray-200 font-medium tracking-tight">
+    <span>✨ FREE DELIVERY ON ORDERS OVER ₱500 | FRESH BREWED EVERYDAY WITH LOVE ✨</span>
+  </div>
+
+  <!-- Sticky Main Navigation -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <img src="https://scontent.fmnl30-1.fna.fbcdn.net/v/t39.30808-6/599744491_715442981632845_8117399899905375086_n.jpg?stp=dst-jpg_tt6&cstp=mx960x960&ctp=s960x960&_nc_cat=108&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHd4L8v5O-p_qS5iQP6c_IXjYnEySpXSmONicTJKldKY2T7gESstIvWMLG8Q3ZAX6wHZclThqEF0GpDhfHdQIQY&_nc_ohc=rfcioLr4q5wQ7kNvwH2mdxE&_nc_oc=Adqx9vEkFvKNoGmRaiDNofuT0ax0H6SxLxWxaYEFdG7TNY0LXx4_EKnhUzoLCVZ5Tus&_nc_zt=23&_nc_ht=scontent.fmnl30-1.fna&_nc_gid=2drgVZ_6LluL9fOGomWDrA&_nc_ss=7b2a8&oh=00_AQNiknFEqpQQwHi2D6PoXyzONsGcWx2pUbkJkGQ_Gmp7PQ&oe=6AE694A5" 
+             alt="Besh Kape Logo" 
+             class="h-10 w-10 object-cover rounded-full border border-gray-200 group-hover:scale-105 transition-transform"
+             onerror="this.src='https://placehold.co/100x100/111/fff?text=BK'" />
+        <span class="font-extrabold text-xl tracking-tighter uppercase font-sans">Besh Kape</span>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide">
+        <a href="#menu" class="hover:text-gray-500 transition-colors">FULL MENU</a>
+        <a href="#promos" class="hover:text-gray-500 transition-colors">FEATURED</a>
+        <button onclick="toggleTrackingModal()" class="hover:text-gray-500 transition-colors text-left flex items-center gap-1.5">
+          <i class="fa-solid font-bold text-xs fa-location-dot text-red-500"></i> LIVE TRACKING
+        </button>
+      </nav>
+
+      <!-- Cart Button & Search Icon -->
+      <div class="flex items-center space-x-4">
+        <button onclick="toggleTrackingModal()" title="Track Order" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+          <i class="fa-solid fa-truck-fast text-lg text-gray-700"></i>
+        </button>
+        <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-full bg-black text-white hover:bg-gray-800 transition-all transform active:scale-95 flex items-center justify-center">
+          <i class="fa-solid fa-bag-shopping text-sm"></i>
+          <span id="cartBadge" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white hidden">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner Header (Nike Bold Style) -->
+  <section class="relative bg-black text-white overflow-hidden">
+    <div class="absolute inset-0 z-0 opacity-40">
+      <img src="https://scontent.fmnl30-2.fna.fbcdn.net/v/t39.30808-6/557597075_654110364432774_997547291093332550_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx1536x2048&ctp=s1536x2048&_nc_cat=102&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeG9OfgFtGIGyBX6qxF9QJyQG0sEr9mCE14bSwSv2YITXk9zEApndN8a7PPyDvAmTFPdzlk8DC1ET9xbMUlLckYf&_nc_ohc=_jQ6poSA8scQ7kNvwHMkvdG&_nc_oc=Adp3C6Md2K2Z5mY7H4MiOM0sLswear5hUHaip1q_vYZMfPB0VfR-295RQE2mDvqIkSs&_nc_zt=23&_nc_ht=scontent.fmnl30-2.fna&_nc_gid=V5Lf-JdI8XbCW-J-W5O47w&_nc_ss=7b2a8&oh=00_AQM4iaDTToXJ0XmQwg5YPk350IvBG4KhWJ26SE2nOzrCYg&oe=6AE696DB" 
+           alt="Besh Kape Header Background" 
+           class="w-full h-full object-cover object-center filter contrast-125"
+           onerror="this.src='https://placehold.co/1200x600/222/fff?text=Besh+Kape+Storefront'" />
+    </div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 sm:py-32 lg:py-40 flex flex-col items-start justify-end">
+      <span class="inline-block px-3 py-1 bg-white text-black text-xs font-black uppercase tracking-widest rounded-none mb-4">2 best of friends 2 coffee lovers... Started 2003.</span>
+      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-none max-w-4xl mb-6">
+        Besh Kape - A Love Language
+      </h1>
+      <p class="text-base sm:text-xl text-gray-300 max-w-xl font-medium leading-relaxed mb-8">
+        Experience premium hand-crafted espresso, authentic Matcha series, and refreshing fruit teas made fresh daily by your favorite beshies.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#menu" class="px-8 py-4 bg-white text-black font-extrabold text-sm uppercase tracking-wider rounded-full hover:bg-gray-200 transition-all shadow-lg transform hover:-translate-y-0.5">
+          Order Coffee Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Promotional Cards Section -->
+  <section id="promos" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="flex justify-between items-end mb-8">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-gray-400">Special Highlights</span>
+        <h2 class="text-3xl font-black tracking-tight uppercase">FEATURED SPECIALLY FOR YOU</h2>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Promo Card 1: Besh Match -->
+      <div class="relative group rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shadow-sm transition-all hover:shadow-xl">
+        <div class="aspect-w-16 aspect-h-9 h-80 overflow-hidden">
+          <img src="https://scontent.fmnl30-2.fna.fbcdn.net/v/t39.30808-6/640334889_771182299392246_9216123152193863546_n.jpg?stp=dst-jpg_tt6&cstp=mx1414x2000&ctp=s1414x2000&_nc_cat=105&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHktJV_HJ9kogGa7iJqZMnkRxM1kwM_yP9HEzWTAz_I_zNBZG1wglbU2Gz7Xq5308mSP9w_Z4397uB443pQ9fPq&_nc_ohc=DrZ_Yk_kkgIQ7kNvwH_5o8-&_nc_oc=AdrfzoSyvGGR90dttTMf2QGKBeNyWA7WwahJU7UfxZymb454ZDhgaZYrXAgYv49fbyg&_nc_zt=23&_nc_ht=scontent.fmnl30-2.fna&_nc_gid=IhLsqMNc2UZDoyGwrE8IjQ&_nc_ss=7b2a8&oh=00_AQPI5Ij5mhY5oH8jABX9zO_p2sFiJ3TD_RMNimHz5JhTDA&oe=6AE685AB" 
+               alt="Besh Match Combo" 
+               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+               onerror="this.src='https://placehold.co/600x400/111/fff?text=Besh+Match+Promo'" />
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-white">
+          <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Limited Offer</span>
+          <h3 class="text-2xl font-black uppercase tracking-tight">The Ultimate Besh Match</h3>
+          <p class="text-xs text-gray-300 mt-1">Pair your favorite ice blend with signature snacks for the ultimate energy boost.</p>
+          <button onclick="scrollToMenu('Matcha')" class="mt-4 px-5 py-2.5 bg-white text-black text-xs font-extrabold uppercase rounded-full self-start hover:bg-gray-200 transition-colors">
+            Order Combo
+          </button>
+        </div>
+      </div>
+
+      <!-- Promo Card 2: Spanish Latte -->
+      <div class="relative group rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shadow-sm transition-all hover:shadow-xl">
+        <div class="aspect-w-16 aspect-h-9 h-80 overflow-hidden">
+          <img src="https://scontent.fmnl30-1.fna.fbcdn.net/v/t39.30808-6/702501614_838846675959141_2259884037383793345_n.jpg?stp=dst-jpg_tt6&cstp=mx1008x1261&ctp=s1008x1261&_nc_cat=109&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEqHn37PVUAWeKz37Z8GlacJu9I0rXKDbEm70jStcoNsVM6DDcZSLsjRKejGHPZEbIS-Uv-1I4JmKuSWyvEepKr&_nc_ohc=3WJfFh26TPwQ7kNvwHOC5GI&_nc_oc=AdpvoV3SXv0jFepbJyOm5avyLHqfw_q_gVL9pWpn_x329MK82962BIFjOqCWsCOvmVg&_nc_zt=23&_nc_ht=scontent.fmnl30-1.fna&_nc_gid=kzQqtdxtXsok1faQxnjw5w&_nc_ss=7b2a8&oh=00_AQOjvEdzCTKQxTwQ9AVMQTGoFVhXdkBJW3BknQF4fQktoA&oe=6AE6C87B" 
+               alt="Spanish Latte Highlight" 
+               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+               onerror="this.src='https://placehold.co/600x400/111/fff?text=Spanish+Latte+Highlight'" />
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-white">
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Top Bestseller</span>
+          <h3 class="text-2xl font-black uppercase tracking-tight">Signature Spanish Latte</h3>
+          <p class="text-xs text-gray-300 mt-1">Rich espresso mixed with creamy condensed milk for that rich, smooth velvety taste.</p>
+          <button onclick="openProductById('p3')" class="mt-4 px-5 py-2.5 bg-white text-black text-xs font-extrabold uppercase rounded-full self-start hover:bg-gray-200 transition-colors">
+            Try It Now
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Besh Kape Highlights Carousel -->
+  <section id="highlights" class="bg-black text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-5 flex items-end justify-between gap-4">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-gray-400">A taste of Besh Kape</span>
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight uppercase mt-1">Highlights</h2>
+      </div>
+      <div class="flex items-center gap-2">
+        <button type="button" onclick="changeHighlight(-1)" aria-label="Previous highlight" class="hidden sm:inline-flex w-10 h-10 items-center justify-center rounded-full bg-white/90 text-black hover:bg-white transition-colors">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button type="button" onclick="changeHighlight(1)" aria-label="Next highlight" class="hidden sm:inline-flex w-10 h-10 items-center justify-center rounded-full bg-white/90 text-black hover:bg-white transition-colors">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="highlightsCarousel" class="relative h-[420px] sm:h-[520px] lg:h-[600px] overflow-hidden bg-gray-900" aria-roledescription="carousel" aria-label="Besh Kape highlights">
+      <article class="highlight-slide absolute inset-0 opacity-100 transition-opacity duration-700" aria-hidden="false">
+        <img src="https://scontent.fmnl30-2.fna.fbcdn.net/v/t39.30808-6/576481017_683727911471019_3440936401133909753_n.jpg?stp=dst-jpg_tt6&cstp=mx1720x2048&ctp=s1720x2048&_nc_cat=101&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF97G8IfLRFK6IuNw2lB1dF4utid0NohBDi62J3Q2iEEMu_gIAxZB4h6Y5vtyIbaPA80ZrN83DTgdM1snsg93rX&_nc_ohc=5t3W-Un2D8gQ7kNvwHiTTbC&_nc_oc=AdqkITqedQRw5A7XyyGP9Jq4nndN6t-9tS5ABYjA78gTWOnsBod_0jwqS89U3QETXUk&_nc_zt=23&_nc_ht=scontent.fmnl30-2.fna&_nc_gid=77d80uUn2rOKFkCTST7Ewg&_nc_ss=7b2a8&oh=00_AQMY7Rve59u33a1L5vWHr7SYiqgwsVa8WkbBczjUpgwzog&oe=6AE692BD" alt="Featured Besh Kape drink" class="w-full h-full object-cover object-center" onerror="this.src='https://placehold.co/1600x900/172126/fff?text=Besh+Kape+Highlights'">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+          <span class="text-sm font-bold tracking-widest uppercase">Besh Kape Favorites</span>
+          <h3 class="mt-2 text-4xl sm:text-6xl font-black uppercase tracking-tight">A love language in every cup</h3>
+          <p class="mt-4 max-w-xl text-sm sm:text-lg text-gray-100">Freshly made drinks, shared with love.</p>
+          <a href="#menu" class="mt-7 rounded-full bg-white px-7 py-3 text-sm font-bold text-black hover:bg-gray-200 transition-colors">Explore the menu</a>
+        </div>
+      </article>
+
+      <article class="highlight-slide absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-700" aria-hidden="true">
+        <img src="https://scontent.fmnl30-2.fna.fbcdn.net/v/t39.30808-6/495182079_540859949091150_1045512858361886422_n.jpg?stp=dst-jpg_tt6&cstp=mx720x960&ctp=s720x960&_nc_cat=106&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHP8c9Oz9eYrkWmEQ2HR7lIeqpkKrutDXR6qmQqu60NdI7xU-iC5YegQ4xA3bVerIWA6vfLyBPTDG2tcYVE_5y_&_nc_ohc=7c5yqlk8z2cQ7kNvwHwE0MH&_nc_oc=AdqABCBoiYCNyDaW-g_l7RNhtfKiCUpRA3joCcVSvAp_IlyI1xAjj88eULiZNth-0LQ&_nc_zt=23&_nc_ht=scontent.fmnl30-2.fna&_nc_gid=DHEppjBmf87CSvS_yRZAgg&_nc_ss=7b2a8&oh=00_AQMyVZvb20oGV2VpfMNR88EHNCjr4rN9Ds8H8xuH5YsOcw&oe=6AE6B344" alt="Besh Kape store and drink feature" class="w-full h-full object-cover object-center" onerror="this.src='https://placehold.co/1600x900/172126/fff?text=Besh+Kape+Highlights'">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+          <span class="text-sm font-bold tracking-widest uppercase">Your neighborhood coffee stop</span>
+          <h3 class="mt-2 text-4xl sm:text-6xl font-black uppercase tracking-tight">Come visit us</h3>
+          <p class="mt-4 max-w-xl text-sm sm:text-lg text-gray-100">Find us at 319 C. 2nd Street, V. Mapa, Sta. Mesa, Manila.</p>
+          <a href="#menu" class="mt-7 rounded-full bg-white px-7 py-3 text-sm font-bold text-black hover:bg-gray-200 transition-colors">Explore the menu</a>
+        </div>
+      </article>
+
+      <article class="highlight-slide absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-700" aria-hidden="true">
+        <img src="https://scontent.fmnl30-1.fna.fbcdn.net/v/t39.30808-6/557598892_656335544210256_5370864708194535504_n.jpg?stp=dst-jpg_tt6&cstp=mx1326x1440&ctp=s1326x1440&_nc_cat=102&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeE2F0zAaPE56rEzG661_2mFsCQSwpmRofqwJBLCmZGh-tvSeI5YyqxX2HMN7PdyseIL3YdQQGqK2WsJEvutaGv7&_nc_ohc=XsACtOoyZeUQ7kNvwE95sh5&_nc_oc=AdrjNag8u8nhoo-NMadOfG2NFz8c3_4HcdnsIWsaN2ZUu4eb7v3-GLl3M_m-dfAmiW8&_nc_zt=23&_nc_ht=scontent.fmnl30-1.fna&_nc_gid=5Ow-JIbjvqddOE6-T3s7CA&_nc_ss=7b2a8&oh=00_AQMJ9NGstW0AQraZv72xxmDo_LtZOCv5AGYVVYev0Tq_RA&oe=6AE6B09F" alt="Besh Kape featured drink" class="w-full h-full object-cover object-center" onerror="this.src='https://placehold.co/1600x900/172126/fff?text=Besh+Kape+Highlights'">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+          <span class="text-sm font-bold tracking-widest uppercase">Made fresh for you</span>
+          <h3 class="mt-2 text-4xl sm:text-6xl font-black uppercase tracking-tight">Find your new favorite</h3>
+          <p class="mt-4 max-w-xl text-sm sm:text-lg text-gray-100">Discover handcrafted drinks made fresh daily.</p>
+          <a href="#menu" class="mt-7 rounded-full bg-white px-7 py-3 text-sm font-bold text-black hover:bg-gray-200 transition-colors">Explore the menu</a>
+        </div>
+      </article>
+
+      <article class="highlight-slide absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-700" aria-hidden="true">
+        <img src="https://scontent.fmnl30-3.fna.fbcdn.net/v/t39.30808-6/557601656_662871763556634_8549028411563787680_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx1334x1327&ctp=s1334x1327&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHiRNtJWjTXmOlfpyOduxMuqQSWA-vlxQypBJYD6-XFDE4b9HoKm8N_1Bfr1lgnz3PLmrIMauHA2_Sxs1pgp-6w&_nc_ohc=aFBtzzjfZqoQ7kNvwF0pVQj&_nc_oc=AdqMl6d0_iQoCEBCYVhKPoO_9HgrM4dn4kkiwG4rnf6ugNbkthRUf93dAHrvAcjjxNA&_nc_zt=23&_nc_ht=scontent.fmnl30-3.fna&_nc_gid=2WVvEh_ZuSvJDZNAH2Pl8g&_nc_ss=7b2a8&oh=00_AQNaGyZmb1rpEO-B-t2nKtzhtGe9DYy9YIDfatRihXUWNg&oe=6AE6BDFA" alt="Besh Kape matcha drink feature" class="w-full h-full object-cover object-center" onerror="this.src='https://placehold.co/1600x900/172126/fff?text=Matcha+Series'">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+          <span class="text-sm font-bold tracking-widest uppercase">Smooth, creamy, and refreshing</span>
+          <h3 class="mt-2 text-4xl sm:text-6xl font-black uppercase tracking-tight">Meet the matcha series</h3>
+          <p class="mt-4 max-w-xl text-sm sm:text-lg text-gray-100">Explore our colorful matcha favorites.</p>
+          <button onclick="scrollToMenu('Matcha')" class="mt-7 rounded-full bg-white px-7 py-3 text-sm font-bold text-black hover:bg-gray-200 transition-colors">Shop matcha</button>
+        </div>
+      </article>
+
+      <article class="highlight-slide absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-700" aria-hidden="true">
+        <img src="https://scontent.fmnl30-1.fna.fbcdn.net/v/t39.30808-6/557631707_662871776889966_2638842414692216361_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx1440x1432&ctp=s1440x1432&_nc_cat=109&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHCwkoCQV-ZzpOS0Z1CS4mUKXJp3wTB6dcpcmnfBMHp18aC9-GsRYKcxcKSqkTJMTBWCB3l9L2nE2gtk8xX0mES&_nc_ohc=leuAcu1iQgkQ7kNvwFel21f&_nc_oc=Adqb1umECtDW4_cJSREnFsq83FiDhI_ikVUrGMZJJbm6bzjBcbPFqcD7_4ilWriSchw&_nc_zt=23&_nc_ht=scontent.fmnl30-1.fna&_nc_gid=ZtFrqiDqWs8oPa1yC8MN5A&_nc_ss=7b2a8&oh=00_AQM8DcjW1kmhR5xTYlojf6r1rLFjZHwwAMekGpBQ4jYcEg&oe=6AE6A304" alt="Besh Kape featured beverage" class="w-full h-full object-cover object-center" onerror="this.src='https://placehold.co/1600x900/172126/fff?text=Besh+Kape+Highlights'">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+          <span class="text-sm font-bold tracking-widest uppercase">Your next coffee break</span>
+          <h3 class="mt-2 text-4xl sm:text-6xl font-black uppercase tracking-tight">Sip something special</h3>
+          <p class="mt-4 max-w-xl text-sm sm:text-lg text-gray-100">A little treat, made with love by your beshies.</p>
+          <a href="#menu" class="mt-7 rounded-full bg-white px-7 py-3 text-sm font-bold text-black hover:bg-gray-200 transition-colors">Explore the menu</a>
+        </div>
+      </article>
+
+      <article class="highlight-slide absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-700" aria-hidden="true">
+        <img src="https://scontent.fmnl30-3.fna.fbcdn.net/v/t39.30808-6/560169442_668111513032659_5916617933690626057_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx1536x1664&ctp=s1536x1664&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHo-jKVmni9TxVlCNA7Mzda0_ofC40mCiDT-h8LjSYKIJdCAHtUtuf2YbzyQxapmUZAAbE7EIHY04zj7k9qG71U&_nc_ohc=YFZD3z5TwigQ7kNvwGA6IrD&_nc_oc=AdqkXbNlpckDKlsB7-EYm6LeHNp6zQgyAOrGEobR48fCwEhr7rEVvMvv49hb5P-cYFQ&_nc_zt=23&_nc_ht=scontent.fmnl30-3.fna&_nc_gid=nU-Aowy5Dybxo-I78ftA7Q&_nc_ss=7b2a8&oh=00_AQMl1JLPbejHw-HVIeudzaDB26YoioU0bJ3sZekimFdxlg&oe=6AE6B748" alt="Besh Kape featured special" class="w-full h-full object-cover object-center" onerror="this.src='https://placehold.co/1600x900/172126/fff?text=Besh+Kape+Highlights'">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+          <span class="text-sm font-bold tracking-widest uppercase">Besh Kape</span>
+          <h3 class="mt-2 text-4xl sm:text-6xl font-black uppercase tracking-tight">Brewed with love</h3>
+          <p class="mt-4 max-w-xl text-sm sm:text-lg text-gray-100">Coffee, matcha, and good moments await.</p>
+          <a href="#menu" class="mt-7 rounded-full bg-white px-7 py-3 text-sm font-bold text-black hover:bg-gray-200 transition-colors">Explore the menu</a>
+        </div>
+      </article>
+
+      <article class="highlight-slide absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-700 bg-black" aria-hidden="true">
+        <img src="https://scontent.fmnl30-1.fna.fbcdn.net/v/t39.30808-6/708866991_844507102059765_1921043353207794287_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx1474x2048&ctp=s1474x2048&_nc_cat=100&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFISN2tGmtVE_YaJrGd7Zd2cDtDR3Fy1O9wO0NHcXLU74Z-6Umm8Iz8Ed9llD1pr2GoOt3wyvLs2GHsH7ysGxF4&_nc_ohc=-J1wpD9opiMQ7kNvwH66GNo&_nc_oc=Adp-KA31sskEqVA4JABjidsacEW9D7l5EPmEDKLAMxwaebpjdUV609Qz6MbwqkDVDtA&_nc_zt=23&_nc_ht=scontent.fmnl30-1.fna&_nc_gid=yyEJjKUGc2dbcwfirXJcHQ&_nc_ss=7b2a8&oh=00_AQPs8RiBsOCJbOkqyx3JlqgixJ4UsvvV8p7eBRs48r3jrA&oe=6AE6AB00" alt="Besh Kape seasonal drink special" class="w-full h-full object-contain object-center" onerror="this.src='https://placehold.co/800x1100/111/fff?text=Besh+Kape+Special'">
+      </article>
+
+      <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10" role="group" aria-label="Choose a highlight">
+        <button onclick="showHighlight(0)" aria-label="Show highlight 1" class="highlight-dot w-2 h-2 rounded-full bg-white transition-all" aria-current="true"></button>
+        <button onclick="showHighlight(1)" aria-label="Show highlight 2" class="highlight-dot w-2 h-2 rounded-full bg-white/50 transition-all" aria-current="false"></button>
+        <button onclick="showHighlight(2)" aria-label="Show highlight 3" class="highlight-dot w-2 h-2 rounded-full bg-white/50 transition-all" aria-current="false"></button>
+        <button onclick="showHighlight(3)" aria-label="Show highlight 4" class="highlight-dot w-2 h-2 rounded-full bg-white/50 transition-all" aria-current="false"></button>
+        <button onclick="showHighlight(4)" aria-label="Show highlight 5" class="highlight-dot w-2 h-2 rounded-full bg-white/50 transition-all" aria-current="false"></button>
+        <button onclick="showHighlight(5)" aria-label="Show highlight 6" class="highlight-dot w-2 h-2 rounded-full bg-white/50 transition-all" aria-current="false"></button>
+        <button onclick="showHighlight(6)" aria-label="Show highlight 7" class="highlight-dot w-2 h-2 rounded-full bg-white/50 transition-all" aria-current="false"></button>
+      </div>
+      <div class="absolute bottom-4 right-4 flex sm:hidden items-center gap-2 z-10">
+        <button type="button" onclick="changeHighlight(-1)" aria-label="Previous highlight" class="w-9 h-9 rounded-full bg-white/90 text-black"><i class="fa-solid fa-chevron-left"></i></button>
+        <button type="button" onclick="changeHighlight(1)" aria-label="Next highlight" class="w-9 h-9 rounded-full bg-white/90 text-black"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Menu Catalog Section -->
+  <section id="menu" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <span class="text-xs font-black uppercase tracking-widest text-gray-400">Crafted Fresh Daily</span>
+      <h2 class="text-4xl font-black tracking-tight uppercase mt-1">EXPLORE OUR MENU</h2>
+      <p class="text-sm text-gray-500 mt-2">Select your choice of hand-brewed iced espresso, refreshing fruit drinks, or creamy Matcha blends.</p>
+    </div>
+
+    <!-- Nike Style Category Pill Filters -->
+    <div class="flex items-center justify-center gap-2 overflow-x-auto pb-4 custom-scrollbar mb-8">
+      <button onclick="filterCategory('All')" class="cat-btn active px-6 py-2.5 rounded-full text-xs font-extrabold tracking-wide uppercase transition-all bg-black text-white shadow-md">
+        All Items
+      </button>
+      <button onclick="filterCategory('Espresso')" class="cat-btn px-6 py-2.5 rounded-full text-xs font-extrabold tracking-wide uppercase transition-all bg-gray-100 text-gray-700 hover:bg-gray-200">
+        Espresso Based
+      </button>
+      <button onclick="filterCategory('Milk')" class="cat-btn px-6 py-2.5 rounded-full text-xs font-extrabold tracking-wide uppercase transition-all bg-gray-100 text-gray-700 hover:bg-gray-200">
+        Milk Based
+      </button>
+      <button onclick="filterCategory('Juice')" class="cat-btn px-6 py-2.5 rounded-full text-xs font-extrabold tracking-wide uppercase transition-all bg-gray-100 text-gray-700 hover:bg-gray-200">
+        Juice & Soda
+      </button>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Injected dynamically by JavaScript -->
+    </div>
+  </section>
+
+  <!-- Product Customization Modal -->
+  <div id="productModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 relative max-h-[90vh] flex flex-col">
+      <!-- Close Button -->
+      <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-black flex items-center justify-center shadow-md transition-all">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="overflow-y-auto p-6 flex-1 space-y-6">
+        <!-- Product Image & Header -->
+        <div class="relative h-64 rounded-2xl overflow-hidden bg-gray-100">
+          <img id="modalImg" src="" alt="Product" class="w-full h-full object-cover" />
+          <span id="modalCategory" class="absolute bottom-3 left-3 bg-black text-white text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-wider"></span>
+        </div>
+
+        <div>
+          <div class="flex justify-between items-start">
+            <h3 id="modalTitle" class="text-2xl font-black uppercase tracking-tight"></h3>
+            <span id="modalBasePrice" class="text-xl font-extrabold text-black"></span>
+          </div>
+          <p id="modalDesc" class="text-xs text-gray-500 mt-1 leading-relaxed">Delicious signature beverage crafted with premium ingredients.</p>
+        </div>
+
+        <!-- Size Selection Section -->
+        <div>
+          <label class="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">Select Cup Size</label>
+          <div class="grid grid-cols-3 gap-3" id="sizeSelectorContainer">
+            <!-- Dynamic sizes -->
+          </div>
+        </div>
+
+        <!-- Add-ons Selection Section -->
+        <div>
+          <label class="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">Customize Add-ons</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="addonsContainer">
+            <!-- Dynamic Add-ons -->
+          </div>
+        </div>
+
+        <!-- Quantity & Total Preview -->
+        <div class="flex items-center justify-between pt-2 border-t border-gray-100">
+          <span class="text-xs font-bold uppercase tracking-wider text-gray-600">Quantity</span>
+          <div class="flex items-center border border-gray-300 rounded-full bg-gray-50">
+            <button onclick="updateModalQty(-1)" class="w-9 h-9 flex items-center justify-center text-sm font-bold text-gray-600 hover:text-black">-</button>
+            <span id="modalQty" class="w-8 text-center text-sm font-black">1</span>
+            <button onclick="updateModalQty(1)" class="w-9 h-9 flex items-center justify-center text-sm font-bold text-gray-600 hover:text-black">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Buttons: Add to Cart & Buy Now -->
+      <div class="p-6 bg-gray-50 border-t border-gray-100 flex gap-3">
+        <button onclick="submitModalAddToCart(false)" class="flex-1 py-3.5 px-4 bg-gray-200 text-black font-extrabold text-xs uppercase tracking-wider rounded-full hover:bg-gray-300 transition-colors flex items-center justify-center gap-2">
+          <i class="fa-solid fa-cart-plus"></i> Add To Cart
+        </button>
+        <button onclick="submitModalAddToCart(true)" class="flex-1 py-3.5 px-4 bg-black text-white font-extrabold text-xs uppercase tracking-wider rounded-full hover:bg-gray-800 transition-colors shadow-lg flex items-center justify-center gap-2">
+          Buy Now <span id="modalTotalBtnPrice">₱0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sliding Cart Drawer -->
+  <div id="cartDrawerBackdrop" onclick="toggleCartDrawer()" class="fixed inset-0 z-50 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+  <aside id="cartDrawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full drawer-transition flex flex-col">
+    <!-- Drawer Header -->
+    <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-white">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-bag-shopping text-xl"></i>
+        <h2 class="text-xl font-black uppercase tracking-tight">Your Cart</h2>
+      </div>
+      <button onclick="toggleCartDrawer()" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-black transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Cart Item List -->
+    <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-6 space-y-4">
+      <!-- Injected dynamically -->
+    </div>
+
+    <!-- Drawer Footer / Checkout CTA -->
+    <div class="p-6 border-t border-gray-100 bg-gray-50 space-y-4">
+      <div class="space-y-1.5 text-xs text-gray-600">
+        <div class="flex justify-between">
+          <span>Subtotal</span>
+          <span id="cartSubtotal" class="font-bold text-black">₱0</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Estimated Delivery Fee</span>
+          <span class="font-bold text-black">₱49</span>
+        </div>
+        <div class="flex justify-between text-sm font-black text-black pt-2 border-t border-gray-200">
+          <span>Total Amount</span>
+          <span id="cartTotal" class="text-lg">₱0</span>
+        </div>
+      </div>
+
+      <button onclick="openCheckoutModal()" id="checkoutBtn" disabled class="w-full py-4 bg-black text-white font-extrabold text-xs uppercase tracking-widest rounded-full hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all shadow-md">
+        Proceed to Checkout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Shopee-Style Checkout Modal -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <span class="bg-red-500 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded">Shopee Checkout Style</span>
+          <h3 class="text-lg font-black uppercase tracking-tight">Order Details</h3>
+        </div>
+        <button onclick="closeCheckoutModal()" class="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-black">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Checkout Form Content -->
+      <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)" class="overflow-y-auto p-6 space-y-5 flex-1">
+        <!-- Delivery Address Box -->
+        <div class="bg-amber-50/60 border border-amber-200 rounded-2xl p-4">
+          <div class="flex items-center gap-2 text-amber-800 font-bold text-xs uppercase mb-2">
+            <i class="fa-solid fa-location-dot"></i> Delivery Address
+          </div>
+          <div class="space-y-3">
+            <input type="text" required id="buyerName" placeholder="Full Name" class="w-full text-xs p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black">
+            <input type="tel" required id="buyerPhone" placeholder="Phone Number (e.g. 0917 123 4567)" class="w-full text-xs p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black">
+            <textarea required id="buyerAddress" rows="2" placeholder="Complete Street Address, Building, Barangay" class="w-full text-xs p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"></textarea>
+          </div>
+        </div>
+
+        <!-- Delivery Option -->
+        <div>
+          <label class="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">Shipping Option</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="border-2 border-black rounded-xl p-3 flex items-center gap-3 cursor-pointer bg-gray-50">
+              <input type="radio" name="shipping" value="Express Rider" checked class="accent-black">
+              <div>
+                <div class="text-xs font-extrabold uppercase">Express Delivery</div>
+                <div class="text-[10px] text-gray-500">20-35 Mins • ₱49</div>
+              </div>
+            </label>
+            <label class="border border-gray-300 rounded-xl p-3 flex items-center gap-3 cursor-pointer hover:bg-gray-50">
+              <input type="radio" name="shipping" value="Store Pickup" class="accent-black">
+              <div>
+                <div class="text-xs font-extrabold uppercase">Store Pickup</div>
+                <div class="text-[10px] text-gray-500">Ready in 15 Mins • Free</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Payment Option -->
+        <div>
+          <label class="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">Payment Method</label>
+          <select id="paymentMethod" class="w-full text-xs p-3 rounded-xl border border-gray-300 font-semibold focus:outline-none focus:ring-2 focus:ring-black">
+            <option value="Cash on Delivery">Cash on Delivery (COD)</option>
+            <option value="GCash">GCash E-Wallet</option>
+            <option value="Maya">Maya Digital Payment</option>
+            <option value="Credit/Debit Card">Credit / Debit Card</option>
+          </select>
+        </div>
+
+        <!-- Order Summary Checklist -->
+        <div class="border-t border-gray-100 pt-4">
+          <label class="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">Order Items Summary</label>
+          <div id="checkoutSummaryItems" class="space-y-2 text-xs divide-y divide-gray-100">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </form>
+
+      <!-- Submit Footer -->
+      <div class="p-5 border-t border-gray-100 bg-gray-50 flex items-center justify-between">
+        <div>
+          <div class="text-[10px] text-gray-500 uppercase font-bold">Total Payment</div>
+          <div id="checkoutTotalPay" class="text-xl font-black text-red-600">₱0</div>
+        </div>
+        <button type="submit" form="checkoutForm" class="px-8 py-3.5 bg-black text-white text-xs font-extrabold uppercase tracking-widest rounded-full hover:bg-gray-800 transition-all shadow-lg">
+          Place Order Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post-Checkout Receipt & Live GPS Tracking Modal -->
+  <div id="trackingModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl max-h-[92vh] flex flex-col relative">
+      <!-- Close Button -->
+      <button onclick="toggleTrackingModal()" class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-black flex items-center justify-center shadow-lg transition-all">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="overflow-y-auto p-6 space-y-6 flex-1">
+        <!-- Receipt Top Header -->
+        <div class="text-center border-b border-gray-100 pb-4">
+          <span class="px-3 py-1 bg-green-100 text-green-800 font-extrabold text-[10px] rounded-full uppercase tracking-wider">
+            <i class="fa-solid fa-circle-check mr-1"></i> Order Confirmed & Brewing
+          </span>
+          <h3 class="text-2xl font-black uppercase tracking-tight mt-2">Besh Kape Receipt</h3>
+          <p id="receiptOrderNo" class="text-xs text-gray-400 font-mono mt-0.5">Order ID: #BK-8921</p>
+        </div>
+
+        <!-- Live GPS Tracking Map Section -->
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-xs font-black uppercase tracking-wider text-gray-700 flex items-center gap-1.5">
+              <i class="fa-solid fa-location-crosshairs text-red-500 animate-pulse"></i> Live Delivery Map
+            </span>
+            <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Rider En Route</span>
+          </div>
+
+          <!-- Store Location Map Frame with Delivery Marker Animation -->
+          <div class="relative w-full h-72 rounded-2xl overflow-hidden border border-gray-200 shadow-inner bg-gray-100">
+            <img src="https://scontent.fmnl30-2.fna.fbcdn.net/v/t39.30808-6/553402650_650298951480582_2053733221690987381_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=103&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGBmOTMQ2x7izXqMqIiwYPbsYr9fGE4T1uxiv18YThPWzLGg-vF_Fut2hZdXxnA8Mt5lpxdvZqWOHbnmiGUdVJO&_nc_ohc=Zg7QFcv2zNUQ7kNvwF-bQrz&_nc_oc=Adq3pfBnqxSF-ZoiaZp2YZQAKNsNHCxZKCzzPbjr_XsmZAGS1mgIETIfAYebFcJD4fY&_nc_zt=23&_nc_ht=scontent.fmnl30-2.fna&_nc_gid=oiKmgoGVYvpwgTy_vrBZvg&_nc_ss=7b2a8&oh=00_AQOjErI3aKDycXiHbAx-iwq27AICRsRsGXmUPN0eAHCchg&oe=6AE69B95" 
+                 alt="Besh Kape GPS Map Location" 
+                 class="w-full h-full object-cover filter brightness-95"
+                 onerror="this.src='https://placehold.co/800x400/333/fff?text=Store+Location+GPS+Map'" />
+
+            <!-- Store Pin -->
+            <div class="absolute top-[75%] left-[15%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+              <div class="bg-black text-white text-[9px] font-black uppercase px-2 py-0.5 rounded shadow">Besh Kape Store</div>
+              <i class="fa-solid fa-store text-black text-lg"></i>
+            </div>
+
+            <!-- Destination Pin -->
+            <div class="absolute top-[20%] left-[82%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+              <div class="bg-red-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded shadow">Your Location</div>
+              <i class="fa-solid fa-house-user text-red-600 text-lg"></i>
+            </div>
+
+            <!-- Moving Rider Animation Marker -->
+            <div class="absolute animate-rider z-10 flex flex-col items-center">
+              <div class="bg-white text-black font-extrabold text-[9px] px-2 py-0.5 rounded-full shadow-md border border-gray-200 whitespace-nowrap">
+                Kuya Rider 🛵
+              </div>
+              <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white shadow-lg pulse-effect">
+                <i class="fa-solid fa-motorcycle text-sm"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Receipt Order Summary Details -->
+        <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100 text-xs space-y-2">
+          <div class="font-bold uppercase text-gray-700 pb-2 border-b border-gray-200">Delivery Information</div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Customer:</span>
+            <span id="rcptCustomer" class="font-bold text-gray-800">Besh Customer</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Phone:</span>
+            <span id="rcptPhone" class="font-bold text-gray-800">0917-123-4567</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Address:</span>
+            <span id="rcptAddress" class="font-bold text-gray-800 text-right max-w-[200px] truncate">123 Besh Street, Manila</span>
+          </div>
+          <div class="flex justify-between pt-2 border-t border-gray-200 font-extrabold text-sm text-black">
+            <span>Total Paid:</span>
+            <span id="rcptTotalPay">₱0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-gray-100 border-t border-gray-200 text-center">
+        <button onclick="toggleTrackingModal()" class="w-full py-3 bg-black text-white text-xs font-extrabold uppercase tracking-widest rounded-full hover:bg-gray-800">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="border-t border-gray-200 bg-white text-sm text-gray-600">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="flex justify-end mb-10">
+        <span class="flex items-center gap-2 font-medium text-gray-700">
+          <i class="fa-solid fa-globe text-gray-500" aria-hidden="true"></i>
+          Philippines
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-14">
+        <div>
+          <h2 class="font-bold text-black mb-5">Explore</h2>
+          <ul class="space-y-3">
+            <li><a href="#menu" class="hover:text-black transition-colors">Full Menu</a></li>
+            <li><a href="#promos" class="hover:text-black transition-colors">Featured Drinks</a></li>
+            <li><a href="#menu" class="hover:text-black transition-colors">Customize Your Drink</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="font-bold text-black mb-5">Help</h2>
+          <ul class="space-y-3">
+            <li><button onclick="toggleTrackingModal()" class="hover:text-black transition-colors">Track an Order</button></li>
+            <li><a href="#menu" class="hover:text-black transition-colors">Delivery &amp; Pickup</a></li>
+            <li><a href="#menu" class="hover:text-black transition-colors">Payment Options</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="font-bold text-black mb-5">About Besh Kape</h2>
+          <p class="max-w-sm leading-relaxed">Two best friends and coffee lovers sharing handcrafted coffee, matcha, and refreshing drinks with love since 2003.</p>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-200 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-xs text-gray-500">
+        <span>© 2026 Besh Kape. All rights reserved.</span>
+        <span>Freshly brewed with love in the Philippines.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript Logic Core -->
+  <script>
+    // Product Catalog Database with complete pricing for 12oz, 16oz, 20Oz
+    const productsData = [
+      // Espresso Based (Iced)
+      { id: 'p1', name: 'Americano', category: 'Espresso', img: 'https://scontent.fmnl7-1.fna.fbcdn.net/v/t39.30808-6/552825560_650299018147242_6828711406294409740_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=106&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEulE1GtawZiaYlp3DzK8f8lR2cE6y2bj2VHZwTrLZuPYuRF9oD5zAaMnka2AhiqJZx19JLpq4jotBwXBYRsbxM&_nc_ohc=kiLKY23SKPwQ7kNvwGQX57K&_nc_oc=AdqFDLl_QEowpsC9SEYf7EwPkfAOK39_xDnE5qOO9iz-UWFAyo6echaOtNT74sd_Gw8&_nc_zt=23&_nc_ht=scontent.fmnl7-1.fna&_nc_gid=otNe4-6txvutba9Pxw957w&_nc_ss=7b2a8&oh=00_AQT5rF4EuJadvzBSdGMJ2nsqAnMiIAKl6PGnVMCajGi-1g&oe=6AF643D4', prices: { '12oz': 65, '16oz': 85, '20Oz': 105 }, inStock: true },
+      { id: 'p2', name: 'Kape Latte', category: 'Espresso', img: 'https://scontent.fmnl7-1.fna.fbcdn.net/v/t39.30808-6/552444544_650299138147230_8446330842192068059_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=100&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEJcNBYjeQxsqmaO6DdCSmVE--sk_u3v7wT76yT-7e_vEZDxEUlJAVYAQvSJI9kVgKXBE29tm_HgM54KvQcWNpv&_nc_ohc=lAmcQ-qV9tQQ7kNvwEXd3_H&_nc_oc=AdovbkAsoE8j5tHTeyCJOO_Jbm-Vh1UcHukAUgHNmEUdZdt_o8d32HrmU7LXCIrwr9U&_nc_zt=23&_nc_ht=scontent.fmnl7-1.fna&_nc_gid=zUX7mMiyortMkuQtV9pwkw&_nc_ss=7b2a8&oh=00_AQRoYQtjjqi-1jY2jKZcwgYh9q6XgSqUHpsKLxQ_QNaqXA&oe=6AF64218', prices: { '12oz': 75, '16oz': 95, '20Oz': 115 }, inStock: true },
+      { id: 'p3', name: 'Spanish Latte', category: 'Espresso', img: 'https://scontent.fmnl33-6.fna.fbcdn.net/v/t39.30808-6/554541581_650299274813883_2079253591525020714_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=100&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGMJn3QxSIa7o08gM9p1wUAAJjdS9veEd0AmN1L294R3aw5WXAUZPHBIaT98LHiKIiHjQQLql7jliM4e0UqK5ch&_nc_ohc=Sc1XRQ6hbvwQ7kNvwHyC8x7&_nc_oc=AdrKlCTPkQ3N4H9lGhXvZu868qbi0ugYq3vwh8AIjyaYdmN4iFTCLiCoDHzf-lMfzAU&_nc_zt=23&_nc_ht=scontent.fmnl33-6.fna&_nc_gid=NGmI_LCW4tMHyrve-9oa1A&_nc_ss=7b2a8&oh=00_AQQrNlywcGYusCfFKcG5MjKzREMARfOWhErxvJB6glEMRg&oe=6AF621BA', prices: { '12oz': 85, '16oz': 105, '20Oz': 125 }, inStock: true },
+      { id: 'p4', name: 'Mocha', category: 'Espresso', img: 'https://scontent.fmnl33-1.fna.fbcdn.net/v/t39.30808-6/554338613_650299218147222_6680603097871671539_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=103&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGNx5JBj5_SGeb4hxb46ELw57gpzeuX0lvnuCnN65fSW7ogz6TqNbkwAnGm2_zKTAF8cmMnROCF5QiIGLgr6R2l&_nc_ohc=mE1yvY4sPfAQ7kNvwGViqwf&_nc_oc=AdqmnQhodrhVXUok2kOh6BZlo8UUvHTxc3uiLvgvjvTV3TSPb70t-esSY_T35tc65BA&_nc_zt=23&_nc_ht=scontent.fmnl33-1.fna&_nc_gid=UYlh9htYqwZdcZq0rkBdZw&_nc_ss=7b2a8&oh=00_AQQc6HoU8mLLhgKKY3fTuAomgN3SjBH89x8M5YmhXOvWPw&oe=6AF61256', prices: { '12oz': 85, '16oz': 105, '20Oz': 125 }, inStock: true },
+      { id: 'p5', name: 'Dark Chocolate Espresso', category: 'Espresso', img: 'https://scontent.fmnl33-4.fna.fbcdn.net/v/t39.30808-6/554106266_650299444813866_6383928518697200753_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=103&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEYp68ugBzqqaQYsh-MH7JzwiKWVGEOhFXCIpZUYQ6EVUm4B5yOHdbleEZJqzi3gq1pvsR2p4tLe6y44Lcbc7RC&_nc_ohc=-UKh5DHQ904Q7kNvwHjRDlX&_nc_oc=AdpHxMRiU6QD2BTK2MVtpdlrEJ-eiblaMMLpn4a47EJXnXPMJ8DGCeQcx2OBUZAV7aw&_nc_zt=23&_nc_ht=scontent.fmnl33-4.fna&_nc_gid=G_RB250t_U8iT1f6GaLDDA&_nc_ss=7b2a8&oh=00_AQT0me2rnZJRr5GFaD8d9ZMXS1lCFTYg9TDCrEPdiwamgg&oe=6AF62EB1', prices: { '12oz': 90, '16oz': 110, '20Oz': 130 }, inStock: true },
+      { id: 'p6', name: 'Matcha Espresso', category: 'Espresso', img: 'https://scontent.fmnl33-2.fna.fbcdn.net/v/t39.30808-6/552567064_650299214813889_3603631408989874977_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=106&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeH5p-VhRjUNvcTLxUprEOLexqZYiViSkALGpliJWJKQAvcCfQfchJqWdbhxiZk7eJyVBtj1ystSILEe8I8NIcY-&_nc_ohc=cSU977XUnJoQ7kNvwH7RqyZ&_nc_oc=AdrUNvuFfzWNd484pm35IMwr-qonL9M6ZDK4CIXFiHEn9RzJj-b74AeUptbmLkvJmto&_nc_zt=23&_nc_ht=scontent.fmnl33-2.fna&_nc_gid=ihU7ALUO7yLH_ndXFG8bEQ&_nc_ss=7b2a8&oh=00_AQQ8z6kvpbf_U3m9buqgJb7PhA0AwH4hzj3ZdPvDBjuZtA&oe=6AF63440', prices: { '12oz': 95, '16oz': 115, '20Oz': 135 }, inStock: true },
+      { id: 'p7', name: 'Caramel Macchiato', category: 'Espresso', img: 'https://scontent.fmnl7-1.fna.fbcdn.net/v/t39.30808-6/551986460_650299334813877_8766383431245418519_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=108&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGqrpYSRERv7og28QYVpr6BvUv4C_flwPS9S_gL9-XA9Pq4bvV_iJJ-798-9b1VKfIITDsvHjDGznxeeWY4jxYX&_nc_ohc=RvD0WEOe_bsQ7kNvwG6_8Zc&_nc_oc=AdqzO299yks7xAKDPEgVHVbk8pcFQunU4X_CeLlojF1ysd9OmboGoS1dgCuoOe7sAWg&_nc_zt=23&_nc_ht=scontent.fmnl7-1.fna&_nc_gid=JV5KvU8doyflqGu9TWrq7Q&_nc_ss=7b2a8&oh=00_AQRAVPuWJIfo0nAW2njQBuPJUcNTn75_Tz_C-n3CCLk-OA&oe=6AF644D6', prices: { '12oz': 85, '16oz': 105, '20Oz': 125 }, inStock: true },
+      { id: 'p8', name: 'Sea Salt Latte', category: 'Espresso', img: 'https://static.vecteezy.com/system/resources/thumbnails/054/405/448/small/hot-coffee-in-a-rustic-ceramic-cup-with-steaming-aroma-free-vector.jpg', prices: { '12oz': 90, '16oz': 110, '20Oz': 130 }, inStock: true },
+      { id: 'p9', name: 'Barista\'s Choice', category: 'Espresso', img: 'https://static.vecteezy.com/system/resources/thumbnails/054/405/448/small/hot-coffee-in-a-rustic-ceramic-cup-with-steaming-aroma-free-vector.jpg', prices: { '12oz': 100, '16oz': 120, '20Oz': 140 }, inStock: true },
+
+      // Milk Based (Non-Coffee)
+      { id: 'p10', name: 'Premium Chocolate', category: 'Milk', img: 'https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/554831015_650299338147210_8416857444036532150_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=110&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFovIzyKrLL8mRm6sPZboKYMdKmDc9ZC-Qx0qYNz1kL5KrxKdTZngqzSZNhUNM6JeXJ0pVUKimufKvW-T2gCEa-&_nc_ohc=ZauomKwvCncQ7kNvwH5b0xM&_nc_oc=AdozAOygBv8vZN_Q-zNQlY9w4rg_7WNionpXA68hqRmJuOKRAuoy-PmysoVl-s0Xnio&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&_nc_gid=wG0IXh4eSkorMFrgsE-AdQ&_nc_ss=7b2a8&oh=00_AQSB7MR24LojTm1oVulF0e0eTJyG9rFaT8vI3x6gIxezZg&oe=6AF64784', prices: { '12oz': 65, '16oz': 85, '20Oz': 105 }, inStock: true },
+      { id: 'p11', name: 'Strawberry Milk', category: 'Milk', img: 'https://scontent.fmnl7-1.fna.fbcdn.net/v/t39.30808-6/552377790_650299141480563_4448525756662662196_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=110&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHY_TXG-mIc_ACNe2OPb8NRl-BWEqOZcr6X4FYSo5lyvu1NnraGTe8M11A7Qkyovz0SN0PVMyTDbfZ2vMnJCfs6&_nc_ohc=WyLRvY6CH7QQ7kNvwHN0sLG&_nc_oc=AdodImqAmVFhcYjig_mqGsbBeAH0mxAqDUZYWC_SlWRVXi2Zsdskp19pE4NswHcWJjc&_nc_zt=23&_nc_ht=scontent.fmnl7-1.fna&_nc_gid=wG0IXh4eSkorMFrgsE-AdQ&_nc_ss=7b2a8&oh=00_AQSRIihu_oAV9dW9Q2oJ12mf1fv5aPpdBzPggy3mpWPCPg&oe=6AF62368', prices: { '12oz': 70, '16oz': 90, '20Oz': 110 }, inStock: true },
+      { id: 'p12', name: 'Blueberry Milk', category: 'Milk', img: 'https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-6/552971298_650299404813870_4969909308988411767_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=106&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHTT8zj7dRXfNAsbJ837SEdazn65Okdck9rOfrk6R1yT6kF0Njx6qZz7ezhcjNjOKIafUNHouXJvealnvHmCXeT&_nc_ohc=8EPQcEVXMwYQ7kNvwEF5u1f&_nc_oc=Ado3tujY0v0ALuz5N39ykrx3P8n_Gv5pA6ELE1a8SkyojcPh_1VRXIjsIQZd_nCs45U&_nc_zt=23&_nc_ht=scontent.fmnl3-2.fna&_nc_gid=KbNwb0lZ5GMdLR_Psc4h6w&_nc_ss=7b2a8&oh=00_AQSX2evqpJoh3p9ifaj0oljrmA6euPBmMf05zP1XcCm9sg&oe=6AF65195', prices: { '12oz': 70, '16oz': 90, '20Oz': 110 }, inStock: true },
+
+      // Juice, Soda & Tea
+      { id: 'p13', name: 'Strawberry / Blueberry Juice', category: 'Juice', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs2fmDF3dxbJskJs6Hmu19tOw5kNV0QqvedBoPjJK0dqCBcQoAbtJr2og5&s=10', prices: { '12oz': 60, '16oz': 80, '20Oz': 100 }, inStock: true },
+      { id: 'p14', name: 'Besh Fruit Tea & Soda', category: 'Juice', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs2fmDF3dxbJskJs6Hmu19tOw5kNV0QqvedBoPjJK0dqCBcQoAbtJr2og5&s=10', prices: { '12oz': 65, '16oz': 85, '20Oz': 105 }, inStock: true },
+
+      // Matcha Series
+      { id: 'p15', name: 'Matcha Latte', category: 'Matcha', img: 'https://scontent.fmnl37-1.fna.fbcdn.net/v/t39.30808-6/552582504_650299278147216_436880854720482997_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=109&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGERgUB9ONWPQeV_Iyr_SF00MwY8K9vIiHQzBjwr28iIXEwA4e_Nf1aF2RenRZ2lTtMc2ILMn-eQbsayk_KwHHR&_nc_ohc=wFTpSbnqjE4Q7kNvwFe-mYO&_nc_oc=AdpCCFhWHRL5c7k-UmKp7RGU0khVKk_XZiGiT_GSrR1O6XE349dEajhpOWxb74q0pRc&_nc_zt=23&_nc_ht=scontent.fmnl37-1.fna&_nc_gid=x1uZLZh4KE6D72QlohqOlg&_nc_ss=7b2a8&oh=00_AQTV7VXh324O_Bgw-Jw5kJXBc4aGIgAHl755GpCL_OOHsQ&oe=6AF64F42', prices: { '12oz': 85, '16oz': 105, '20Oz': 125 }, inStock: true },
+      { id: 'p16', name: 'Dark / Pink Matcha', category: 'Matcha', img: 'https://scontent.fmnl3-3.fna.fbcdn.net/v/t39.30808-6/553514797_650299074813903_7461057705901215400_n.jpg?stp=dst-jpg_tt6&cstp=mx940x788&ctp=s940x788&_nc_cat=110&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEA-rMq5uh5FUqzC4y8KhAhedqFbdsFFdx52oVt2wUV3DEuPXGgglGvQQqQpcop3zOdmJ36fODrB-UY41Q90mdL&_nc_ohc=mz5V44lD-cgQ7kNvwFGa_1v&_nc_oc=AdpnaSlVcNwmnuaI7p8CmzTQAikHb2hsTaboEkK6uN9mXqQ9TdECs4qUAaPk1evAkVo&_nc_zt=23&_nc_ht=scontent.fmnl3-3.fna&_nc_gid=S4_Sjmcrz6oOTrJa4AkyzA&_nc_ss=7b2a8&oh=00_AQTACaBhrB3HpW6z1eg9jmkZRv64-wPab6RJ3hHPr7jugg&oe=6AF63125', prices: { '12oz': 90, '16oz': 110, '20Oz': 130 }, inStock: true }
+    ];
+
+    // Available Add-ons
+    const addOnsData = [
+      { id: 'add1', name: 'Espresso Shot', price: 25 },
+      { id: 'add2', name: 'Milk Syrup', price: 20 },
+      { id: 'add3', name: 'Extra Milk', price: 20 },
+      { id: 'add4', name: 'Caramel Syrup', price: 15 },
+      { id: 'add5', name: 'Chocolate Syrup', price: 15 },
+      { id: 'add6', name: 'Pearls / Crystal', price: 15 },
+      { id: 'add7', name: 'Extra Sugar', price: 10 }
+    ];
+
+    // App State Management
+    let cart = [];
+    let activeFilter = 'All';
+    let currentSelectedProduct = null;
+    let selectedSize = '16oz';
+    let selectedAddons = [];
+    let modalQuantity = 1;
+    let activeHighlight = 0;
+    let highlightsTimer = null;
+    let highlightsAutoplay = true;
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts();
+      updateCartUI();
+      startHighlightsAutoplay();
+    });
+
+    function formatCupSize(size) {
+      return `${size.slice(0, -2)}<span class="text-[0.7em]">oz</span>`;
+    }
+
+    // Render Product Catalog Cards
+    function renderProducts() {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+
+      const filtered = activeFilter === 'All' 
+        ? productsData 
+        : productsData.filter(p => p.category === activeFilter);
+
+      filtered.forEach(product => {
+        const minPrice = product.prices['12oz'];
+        const card = document.createElement('div');
+        card.className = "group relative bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-300 transition-all duration-300 flex flex-col justify-between hover:shadow-xl cursor-pointer";
+        card.onclick = () => openProductModal(product);
+
+        card.innerHTML = `
+          <div>
+            <div class="relative h-60 w-full overflow-hidden bg-gray-200">
+              <img src="product.img"alt="{product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/222/fff?text=${encodeURIComponent(product.name)}'" />
+              <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-black text-[10px] font-black uppercase px-2.5 py-1 rounded-full shadow-sm">
+                ${product.category}
+              </span>
+              ${product.inStock ? '' : '<span class="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-full">Out of Stock</span>'}
+            </div>
+            <div class="p-5">
+              <h3 class="font-extrabold text-lg uppercase tracking-tight text-gray-900 group-hover:text-gray-600 transition-colors">${product.name}</h3>
+              <p class="text-xs text-gray-500 mt-1">Sizes: 12<span class="text-[0.7em]">oz</span> • 16<span class="text-[0.7em]">oz</span> • 20<span class="text-[0.7em]">oz</span></p>
+            </div>
+          </div>
+          <div class="p-5 pt-0 flex justify-between items-center">
+            <div>
+              <span class="text-[10px] uppercase text-gray-400 font-bold block">Starts at</span>
+              <span class="text-lg font-black text-black">₱${minPrice}</span>
+            </div>
+            <button class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors shadow-md">
+              <i class="fa-solid fa-plus text-xs"></i>
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function showHighlight(index) {
+      const slides = document.querySelectorAll('.highlight-slide');
+      const dots = document.querySelectorAll('.highlight-dot');
+      if (!slides.length) return;
+
+      activeHighlight = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        const isActive = i === activeHighlight;
+        slide.classList.toggle('opacity-100', isActive);
+        slide.classList.toggle('opacity-0', !isActive);
+        slide.classList.toggle('pointer-events-none', !isActive);
+        slide.setAttribute('aria-hidden', String(!isActive));
+      });
+      dots.forEach((dot, i) => {
+        const isActive = i === activeHighlight;
+        dot.classList.toggle('bg-white', isActive);
+        dot.classList.toggle('bg-white/50', !isActive);
+        dot.setAttribute('aria-current', String(isActive));
+      });
+    }
+
+    function changeHighlight(direction) {
+      showHighlight(activeHighlight + direction);
+      startHighlightsAutoplay();
+    }
+
+    function startHighlightsAutoplay() {
+      clearInterval(highlightsTimer);
+      if (highlightsAutoplay) {
+        highlightsTimer = setInterval(() => showHighlight(activeHighlight + 1), 5000);
+      }
+    }
+
+    function toggleHighlightsAutoplay() {
+      highlightsAutoplay = !highlightsAutoplay;
+      const icon = document.getElementById('highlightsPlayIcon');
+      if (icon) {
+        icon.classList.toggle('fa-pause', highlightsAutoplay);
+        icon.classList.toggle('fa-play', !highlightsAutoplay);
+      }
+      startHighlightsAutoplay();
+    }
+
+    // Category Filter Handler
+    function filterCategory(cat) {
+      activeFilter = cat;
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        if (btn.innerText.toUpperCase().includes(cat.toUpperCase()) || (cat==='All' && btn.innerText.includes('ALL'))) {
+          btn.className = "cat-btn active px-6 py-2.5 rounded-full text-xs font-extrabold tracking-wide uppercase transition-all bg-black text-white shadow-md";
+        } else {
+          btn.className = "cat-btn px-6 py-2.5 rounded-full text-xs font-extrabold tracking-wide uppercase transition-all bg-gray-100 text-gray-700 hover:bg-gray-200";
+        }
+      });
+      renderProducts();
+    }
+
+    function scrollToMenu(cat = null) {
+      if (cat) filterCategory(cat);
+      document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Open Product Details Customization Modal
+    function openProductModal(product) {
+      currentSelectedProduct = product;
+      selectedSize = '16oz';
+      selectedAddons = [];
+      modalQuantity = 1;
+
+      document.getElementById('modalImg').src = product.img;
+      document.getElementById('modalTitle').innerText = product.name;
+      document.getElementById('modalCategory').innerText = product.category;
+      document.getElementById('modalQty').innerText = modalQuantity;
+
+      // Size Options Render
+      const sizeContainer = document.getElementById('sizeSelectorContainer');
+      sizeContainer.innerHTML = '';
+      Object.keys(product.prices).forEach(size => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => selectModalSize(size);
+        btn.id = `size-btn-${size}`;
+        btn.className = `p-3 rounded-xl border text-center transition-all ${size === selectedSize ? 'border-black bg-black text-white font-black' : 'border-gray-200 bg-gray-50 text-gray-700 font-bold hover:bg-gray-100'}`;
+        btn.innerHTML = `
+          <div class="text-xs uppercase">${formatCupSize(size)}</div>
+          <div class="text-xs opacity-80 mt-0.5">₱${product.prices[size]}</div>
+        `;
+        sizeContainer.appendChild(btn);
+      });
+
+      // Add-ons Render
+      const addonsContainer = document.getElementById('addonsContainer');
+      addonsContainer.innerHTML = '';
+      addOnsData.forEach(addon => {
+        const label = document.createElement('label');
+        label.className = "flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-gray-50 hover:bg-gray-100 cursor-pointer text-xs font-semibold";
+        label.innerHTML = `
+          <div class="flex items-center gap-2">
+            <input type="checkbox" onchange="toggleAddon('${addon.id}')" class="accent-black rounded">
+            <span>${addon.name}</span>
+          </div>
+          <span class="text-gray-500">+₱${addon.price}</span>
+        `;
+        addonsContainer.appendChild(label);
+      });
+
+      calculateModalTotal();
+
+      const modal = document.getElementById('productModal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.querySelector('div').classList.remove('scale-95');
+    }
+
+    function openProductById(id) {
+      const p = productsData.find(item => item.id === id);
+      if (p) openProductModal(p);
+    }
+
+    function closeProductModal() {
+      const modal = document.getElementById('productModal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.querySelector('div').classList.add('scale-95');
+    }
+
+    function selectModalSize(size) {
+      selectedSize = size;
+      Object.keys(currentSelectedProduct.prices).forEach(s => {
+        const btn = document.getElementById(`size-btn-${s}`);
+        if (btn) {
+          btn.className = `p-3 rounded-xl border text-center transition-all ${s === selectedSize ? 'border-black bg-black text-white font-black' : 'border-gray-200 bg-gray-50 text-gray-700 font-bold hover:bg-gray-100'}`;
+        }
+      });
+      calculateModalTotal();
+    }
+
+    function toggleAddon(addonId) {
+      const idx = selectedAddons.indexOf(addonId);
+      if (idx > -1) {
+        selectedAddons.splice(idx, 1);
+      } else {
+        selectedAddons.push(addonId);
+      }
+      calculateModalTotal();
+    }
+
+    function updateModalQty(delta) {
+      if (modalQuantity + delta >= 1) {
+        modalQuantity += delta;
+        document.getElementById('modalQty').innerText = modalQuantity;
+        calculateModalTotal();
+      }
+    }
+
+    function calculateModalTotal() {
+      if (!currentSelectedProduct) return 0;
+      const base = currentSelectedProduct.prices[selectedSize];
+      const addonsCost = selectedAddons.reduce((sum, id) => {
+        const item = addOnsData.find(a => a.id === id);
+        return sum + (item ? item.price : 0);
+      }, 0);
+
+      const singleTotal = base + addonsCost;
+      const grandTotal = singleTotal * modalQuantity;
+
+      document.getElementById('modalBasePrice').innerText = `₱${singleTotal}`;
+      document.getElementById('modalTotalBtnPrice').innerText = `₱${grandTotal}`;
+      return grandTotal;
+    }
+
+    // Add Customized Item to Cart
+    function submitModalAddToCart(isBuyNow = false) {
+      const basePrice = currentSelectedProduct.prices[selectedSize];
+      const selectedAddonsList = selectedAddons.map(id => addOnsData.find(a => a.id === id));
+      const addonsCost = selectedAddonsList.reduce((acc, a) => acc + a.price, 0);
+      const unitPrice = basePrice + addonsCost;
+
+      const cartItem = {
+        cartId: Date.now() + Math.random().toString(),
+        productId: currentSelectedProduct.id,
+        name: currentSelectedProduct.name,
+        category: currentSelectedProduct.category,
+        img: currentSelectedProduct.img,
+        size: selectedSize,
+        addons: selectedAddonsList,
+        unitPrice: unitPrice,
+        quantity: modalQuantity
+      };
+
+      cart.push(cartItem);
+      updateCartUI();
+      closeProductModal();
+
+      if (isBuyNow) {
+        toggleCartDrawer(true);
+        openCheckoutModal();
+      } else {
+        toggleCartDrawer(true);
+      }
+    }
+
+    // Toggle Cart Drawer
+    function toggleCartDrawer(forceOpen = false) {
+      const drawer = document.getElementById('cartDrawer');
+      const backdrop = document.getElementById('cartDrawerBackdrop');
+
+      const isOpen = !drawer.classList.contains('translate-x-full');
+      if (isOpen && !forceOpen) {
+        drawer.classList.add('translate-x-full');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+      } else {
+        drawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    // Update Cart UI & Calculation
+    function updateCartUI() {
+      const container = document.getElementById('cartItemsContainer');
+      const cartBadge = document.getElementById('cartBadge');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+
+      container.innerHTML = '';
+      const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+      if (totalCount > 0) {
+        cartBadge.innerText = totalCount;
+        cartBadge.classList.remove('hidden');
+        checkoutBtn.disabled = false;
+      } else {
+        cartBadge.classList.add('hidden');
+        checkoutBtn.disabled = true;
+        container.innerHTML = `
+          <div class="text-center py-12 text-gray-400">
+            <i class="fa-solid fa-bag-shopping text-5xl mb-3"></i>
+            <p class="text-sm font-bold uppercase">Your cart is empty</p>
+            <p class="text-xs text-gray-400 mt-1">Pick your favourite brew to get started!</p>
+          </div>
+        `;
+      }
+
+      let subtotal = 0;
+      cart.forEach(item => {
+        const itemTotal = item.unitPrice * item.quantity;
+        subtotal += itemTotal;
+
+        const addonsText = item.addons.length > 0 
+          ? item.addons.map(a => a.name).join(', ') 
+          : 'No extra add-ons';
+
+        const elem = document.createElement('div');
+        elem.className = "flex gap-3 bg-gray-50 p-3 rounded-2xl border border-gray-100 relative";
+        elem.innerHTML = `
+          <img src="${item.img}" class="w-16 h-16 rounded-xl object-cover" />
+          <div class="flex-1">
+            <div class="flex justify-between items-start">
+              <h4 class="font-extrabold text-xs uppercase">${item.name}</h4>
+              <button onclick="removeCartItem('${item.cartId}')" class="text-gray-400 hover:text-red-500 text-xs">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+            <div class="text-[10px] text-gray-500 font-medium">Size: ${formatCupSize(item.size)}</div>
+            <div class="text-[10px] text-gray-400 truncate max-w-[180px]">${addonsText}</div>
+            
+            <div class="flex justify-between items-center mt-2">
+              <div class="flex items-center border rounded-full bg-white text-xs">
+                <button onclick="changeCartQty('${item.cartId}', -1)" class="px-2 py-0.5 hover:bg-gray-100 font-bold">-</button>
+                <span class="px-2 font-black">${item.quantity}</span>
+                <button onclick="changeCartQty('${item.cartId}', 1)" class="px-2 py-0.5 hover:bg-gray-100 font-bold">+</button>
+              </div>
+              <span class="font-black text-xs">₱${itemTotal}</span>
+            </div>
+          </div>
+        `;
+        container.appendChild(elem);
+      });
+
+      const deliveryFee = subtotal > 0 ? 49 : 0;
+      document.getElementById('cartSubtotal').innerText = `₱${subtotal}`;
+      document.getElementById('cartTotal').innerText = `₱${subtotal + deliveryFee}`;
+    }
+
+    function removeCartItem(cartId) {
+      cart = cart.filter(i => i.cartId !== cartId);
+      updateCartUI();
+    }
+
+    function changeCartQty(cartId, delta) {
+      const item = cart.find(i => i.cartId === cartId);
+      if (item) {
+        item.quantity += delta;
+        if (item.quantity <= 0) {
+          removeCartItem(cartId);
+        } else {
+          updateCartUI();
+        }
+      }
+    }
+
+    // Checkout Modal Handling
+    function openCheckoutModal() {
+      if (cart.length === 0) return;
+      
+      const summaryContainer = document.getElementById('checkoutSummaryItems');
+      summaryContainer.innerHTML = '';
+
+      let subtotal = 0;
+      cart.forEach(item => {
+        const itemTotal = item.unitPrice * item.quantity;
+        subtotal += itemTotal;
+        const row = document.createElement('div');
+        row.className = "flex justify-between py-1.5";
+        row.innerHTML = `
+          <span>${item.quantity}x item.name({formatCupSize(item.size)})</span>
+          <span class="font-bold">₱${itemTotal}</span>
+        `;
+        summaryContainer.appendChild(row);
+      });
+
+      const total = subtotal + 49;
+      document.getElementById('checkoutTotalPay').innerText = `₱${total}`;
+
+      toggleCartDrawer(false);
+      const modal = document.getElementById('checkoutModal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+    }
+
+    function closeCheckoutModal() {
+      const modal = document.getElementById('checkoutModal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    // Handle Form Submit -> Launch Receipt & Live GPS Tracker
+    function handleCheckoutSubmit(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('buyerName').value;
+      const phone = document.getElementById('buyerPhone').value;
+      const address = document.getElementById('buyerAddress').value;
+
+      let subtotal = cart.reduce((acc, i) => acc + (i.unitPrice * i.quantity), 0);
+      let grandTotal = subtotal + 49;
+
+      document.getElementById('rcptCustomer').innerText = name || 'Besh Customer';
+      document.getElementById('rcptPhone').innerText = phone || '0917-000-0000';
+      document.getElementById('rcptAddress').innerText = address || 'Metro Manila Address';
+      document.getElementById('rcptTotalPay').innerText = `₱${grandTotal}`;
+      document.getElementById('receiptOrderNo').innerText = `Order ID: #BK-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      closeCheckoutModal();
+      cart = [];
+      updateCartUI();
+
+      toggleTrackingModal(true);
+    }
+
+    // Toggle Tracking & Receipt Modal
+    function toggleTrackingModal(forceOpen = false) {
+      const modal = document.getElementById('trackingModal');
+      const isOpen = !modal.classList.contains('opacity-0');
+
+      if (isOpen && !forceOpen) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      } else {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+      }
+    }
+  </script>
+</body>
+</html>
+
