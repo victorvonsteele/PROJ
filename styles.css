@@ -1,0 +1,47 @@
+/* Custom styles for Besh Kape (Tailwind utility classes remain in index.html) */
+/* Custom Scrollbars and Transitions */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #111;
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.custom-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth Transitions */
+.drawer-transition {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Animation Keyframes for Delivery Rider */
+@keyframes moveRider {
+  0% { top: 75%; left: 15%; transform: scale(0.8); }
+  25% { top: 60%; left: 35%; }
+  50% { top: 45%; left: 50%; transform: scale(1.1); }
+  75% { top: 30%; left: 68%; }
+  100% { top: 20%; left: 82%; transform: scale(1); }
+}
+
+.animate-rider {
+  animation: moveRider 14s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.3); }
+}
+
+.pulse-effect {
+  animation: pulseGlow 2s infinite ease-in-out;
+}
